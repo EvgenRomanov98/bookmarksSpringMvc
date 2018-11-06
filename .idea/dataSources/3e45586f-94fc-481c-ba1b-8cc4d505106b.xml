@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="postgres@localhost">
+  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.9">
+    <root id="1">
+      <ServerVersion>9.3.3</ServerVersion>
+    </root>
+    <database id="2" parent="1" name="16_06_18">
+      <ObjectId>16393</ObjectId>
+    </database>
+    <database id="3" parent="1" name="postgres">
+      <ObjectId>12029</ObjectId>
+      <Comment>default administrative connection database</Comment>
+      <IntrospectionStateNumber>2</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <role id="4" parent="1" name="postgres">
+      <ObjectId>10</ObjectId>
+      <SuperRole>1</SuperRole>
+      <Inherit>1</Inherit>
+      <CreateRole>1</CreateRole>
+      <CreateDb>1</CreateDb>
+      <CanLogin>1</CanLogin>
+      <Replication>1</Replication>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <schema id="5" parent="3" name="information_schema">
+      <ObjectId>11480</ObjectId>
+    </schema>
+    <schema id="6" parent="3" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+      <Comment>system catalog schema</Comment>
+    </schema>
+    <schema id="7" parent="3" name="pg_temp_1">
+      <ObjectId>11215</ObjectId>
+    </schema>
+    <schema id="8" parent="3" name="pg_toast">
+      <ObjectId>99</ObjectId>
+      <Comment>reserved schema for TOAST tables</Comment>
+    </schema>
+    <schema id="9" parent="3" name="pg_toast_temp_1">
+      <ObjectId>11216</ObjectId>
+    </schema>
+    <schema id="10" parent="3" name="public">
+      <ObjectId>2200</ObjectId>
+      <Comment>standard public schema</Comment>
+      <IntrospectionTimestamp>2018-11-06.17:21:42.121</IntrospectionTimestamp>
+      <IntrospectionStateNumber>11898</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <access-method id="11" parent="3" name="btree">
+      <ObjectId>403</ObjectId>
+      <Comment>b-tree index access method</Comment>
+    </access-method>
+    <access-method id="12" parent="3" name="hash">
+      <ObjectId>405</ObjectId>
+      <Comment>hash index access method</Comment>
+    </access-method>
+    <access-method id="13" parent="3" name="gist">
+      <ObjectId>783</ObjectId>
+      <Comment>GiST index access method</Comment>
+    </access-method>
+    <access-method id="14" parent="3" name="gin">
+      <ObjectId>2742</ObjectId>
+      <Comment>GIN index access method</Comment>
+    </access-method>
+    <access-method id="15" parent="3" name="spgist">
+      <ObjectId>4000</ObjectId>
+      <Comment>SP-GiST index access method</Comment>
+    </access-method>
+    <sequence id="16" parent="10" name="hibernate_sequence">
+      <ObjectId>126551</ObjectId>
+      <StateNumber>11881</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <CacheSize>1</CacheSize>
+    </sequence>
+    <table id="17" parent="10" name="bookmark">
+      <ObjectId>126553</ObjectId>
+      <StateNumber>11893</StateNumber>
+    </table>
+    <table id="18" parent="10" name="menu">
+      <ObjectId>126561</ObjectId>
+      <StateNumber>11895</StateNumber>
+    </table>
+    <table id="19" parent="10" name="menu_bookmark">
+      <ObjectId>126566</ObjectId>
+      <StateNumber>11894</StateNumber>
+    </table>
+    <table id="20" parent="10" name="role">
+      <ObjectId>126569</ObjectId>
+      <StateNumber>11897</StateNumber>
+    </table>
+    <table id="21" parent="10" name="user_info">
+      <ObjectId>126574</ObjectId>
+      <StateNumber>11898</StateNumber>
+    </table>
+    <table id="22" parent="10" name="user_info_menu">
+      <ObjectId>126582</ObjectId>
+      <StateNumber>11896</StateNumber>
+    </table>
+    <table id="23" parent="10" name="user_role">
+      <ObjectId>126585</ObjectId>
+      <StateNumber>11898</StateNumber>
+    </table>
+    <column id="24" parent="17" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>11882</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="25" parent="17" name="comment">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>11882</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="26" parent="17" name="link">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>11882</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="27" parent="17" name="menu_id">
+      <Position>4</Position>
+      <DataType>bigint|0s</DataType>
+      <StateNumber>11882</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="28" parent="17" name="bookmark_pkey">
+      <ObjectId>126559</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="29" parent="17" name="bookmark_pkey">
+      <ObjectId>126560</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>bookmark_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="30" parent="17" name="fkrspmcoy5hlhnd4i2ux4dnwp5">
+      <ObjectId>126594</ObjectId>
+      <ColNames>menu_id</ColNames>
+      <RefTableId>126561</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>menu</RefTableName>
+      <RefKeyName>menu_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="31" parent="18" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>11883</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="32" parent="18" name="namemenu">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>11883</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="33" parent="18" name="userinfo_id">
+      <Position>3</Position>
+      <DataType>bigint|0s</DataType>
+      <StateNumber>11883</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="34" parent="18" name="menu_pkey">
+      <ObjectId>126564</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="35" parent="18" name="menu_pkey">
+      <ObjectId>126565</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>menu_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="36" parent="18" name="fk6geola2edbdirxjewv2fx7c8c">
+      <ObjectId>126599</ObjectId>
+      <ColNames>userinfo_id</ColNames>
+      <RefTableId>126574</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>user_info</RefTableName>
+      <RefKeyName>user_info_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="37" parent="19" name="menu_id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>11884</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="38" parent="19" name="listbookmarks_id">
+      <Position>2</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>11884</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="39" parent="19" name="uk_eiewx4b0rj46wi3cswjgr6cg8">
+      <ObjectId>126590</ObjectId>
+      <ColNames>listbookmarks_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="40" parent="19" name="uk_eiewx4b0rj46wi3cswjgr6cg8">
+      <ObjectId>126591</ObjectId>
+      <ColNames>listbookmarks_id</ColNames>
+      <UnderlyingIndexName>uk_eiewx4b0rj46wi3cswjgr6cg8</UnderlyingIndexName>
+    </key>
+    <foreign-key id="41" parent="19" name="fkiau3p3mr27cxkwwbyaqac26y">
+      <ObjectId>126609</ObjectId>
+      <ColNames>menu_id</ColNames>
+      <RefTableId>126561</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>menu</RefTableName>
+      <RefKeyName>menu_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="42" parent="19" name="fk1vrfsykqva3a1b0ln1si8odd2">
+      <ObjectId>126604</ObjectId>
+      <ColNames>listbookmarks_id</ColNames>
+      <RefTableId>126553</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>bookmark</RefTableName>
+      <RefKeyName>bookmark_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="43" parent="20" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>11885</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="44" parent="20" name="name">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>11885</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="45" parent="20" name="role_pkey">
+      <ObjectId>126572</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="46" parent="20" name="role_pkey">
+      <ObjectId>126573</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>role_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="47" parent="21" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>11886</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="48" parent="21" name="password">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>11886</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="49" parent="21" name="username">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>11886</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="50" parent="21" name="user_info_pkey">
+      <ObjectId>126580</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="51" parent="21" name="user_info_pkey">
+      <ObjectId>126581</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>user_info_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="52" parent="22" name="userinfo_id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>11887</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="53" parent="22" name="listmenu_id">
+      <Position>2</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>11887</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="54" parent="22" name="uk_doigcac0lfv1rw3gipojicp9n">
+      <ObjectId>126592</ObjectId>
+      <ColNames>listmenu_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="55" parent="22" name="uk_doigcac0lfv1rw3gipojicp9n">
+      <ObjectId>126593</ObjectId>
+      <ColNames>listmenu_id</ColNames>
+      <UnderlyingIndexName>uk_doigcac0lfv1rw3gipojicp9n</UnderlyingIndexName>
+    </key>
+    <foreign-key id="56" parent="22" name="fkseo831bedpax1272lg5ve3tvp">
+      <ObjectId>126619</ObjectId>
+      <ColNames>userinfo_id</ColNames>
+      <RefTableId>126574</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>user_info</RefTableName>
+      <RefKeyName>user_info_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="57" parent="22" name="fk19noxo3p9dji2q3illc60dgj7">
+      <ObjectId>126614</ObjectId>
+      <ColNames>listmenu_id</ColNames>
+      <RefTableId>126561</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>menu</RefTableName>
+      <RefKeyName>menu_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="58" parent="23" name="user_id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>11888</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="59" parent="23" name="role_id">
+      <Position>2</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>11888</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="60" parent="23" name="user_role_pkey">
+      <ObjectId>126588</ObjectId>
+      <ColNames>user_id
+role_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="61" parent="23" name="user_role_pkey">
+      <ObjectId>126589</ObjectId>
+      <ColNames>user_id
+role_id</ColNames>
+      <UnderlyingIndexName>user_role_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="62" parent="23" name="fkm90yi1ak9h9tbct25k3km0hia">
+      <ObjectId>126629</ObjectId>
+      <ColNames>user_id</ColNames>
+      <RefTableId>126574</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>user_info</RefTableName>
+      <RefKeyName>user_info_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="63" parent="23" name="fka68196081fvovjhkek5m97n3y">
+      <ObjectId>126624</ObjectId>
+      <ColNames>role_id</ColNames>
+      <RefTableId>126569</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>role</RefTableName>
+      <RefKeyName>role_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+  </database-model>
+</dataSource>
