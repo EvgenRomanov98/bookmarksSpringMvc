@@ -11,4 +11,5 @@ import java.util.List;
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     List<Bookmark> findBookmarkByMenu_NameMenu(String menu);
+    List<Bookmark> findBookmarkByMenu_Id(Long id);
 }

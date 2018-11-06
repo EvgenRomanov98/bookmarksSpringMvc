@@ -23,4 +23,8 @@ public class BookmarkService {
     public List<Bookmark> findByMenu(String nameMenu){
         return bookmarkRepository.findBookmarkByMenu_NameMenu(nameMenu);
     }
+
+    public List<Bookmark> findByFirstMenu(){
+        return bookmarkRepository.findBookmarkByMenu_Id((long) 1);
+    }
 }

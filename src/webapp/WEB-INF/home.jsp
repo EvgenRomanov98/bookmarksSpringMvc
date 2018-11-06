@@ -85,7 +85,7 @@
             <c:forEach var="menu" items="${listMenu}">
                 <div>
 
-                    <a href="${path}/${menu.nameMenu}" class="btn btn-info">${menu.nameMenu}</a>
+                    <a href="home/${menu.nameMenu}" class="btn btn-info">${menu.nameMenu}</a>
                 </div>
             </c:forEach>
         </div>

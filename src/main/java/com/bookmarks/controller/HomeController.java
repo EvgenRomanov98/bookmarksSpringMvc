@@ -16,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+
 @Controller
 @RequestMapping("/home")
 public class HomeController {
@@ -30,8 +32,26 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
+    @GetMapping
+    public String home(Model model, @ModelAttribute("aimMenu") String nameMenu, @ModelAttribute("listBookmark") ArrayList<Bookmark> listBookmark) {
+        System.out.println("in /home");
+
+        if (listBookmark != null){
+            model.addAttribute("listBookmark", listBookmark);
+        }else {
+            model.addAttribute("listBookmark", bookmarkService.findByFirstMenu());
+        }
+
+        model.addAttribute("aimMenu", nameMenu);
+        model.addAttribute("menu", new Menu());
+        model.addAttribute("bookmark", new Bookmark());
+        model.addAttribute("listMenu", menuService.findAll());
+        return "home";
+    }
+
     @PostMapping("/menu/add")
     public String add(@ModelAttribute Menu menu, Model model) {
+        System.out.println("-------- in /home/menu/add");
         System.out.println(menu.toString());
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -47,14 +67,16 @@ public class HomeController {
 
     @GetMapping("{menu}")
     public String selectMenuBookmark(@PathVariable("menu") String nameMenu, RedirectAttributes redirectAttributes) {
+        System.out.println("-------- in /home/{menu}");
         redirectAttributes.addFlashAttribute("aimMenu", nameMenu);
         redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findByMenu(nameMenu));
 
-        return "redirect:home";
+        return "redirect:/home";
     }
 
     @PostMapping("/bookmark/add")
     public String addBookmarkInTargetMenu(@ModelAttribute Bookmark bookmark, @RequestParam("aimMenu") String nameMenu, RedirectAttributes redirectAttributes) {
+        System.out.println("-------- in /home/bookmark/add");
         bookmarkService.save(bookmark, menuService.findMenuByNameMenu(nameMenu));
         redirectAttributes.addFlashAttribute("aimMenu", nameMenu);
         redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findByMenu(nameMenu));

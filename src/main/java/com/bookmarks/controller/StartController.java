@@ -3,6 +3,7 @@ package com.bookmarks.controller;
 import com.bookmarks.dao.model.Bookmark;
 import com.bookmarks.dao.model.Menu;
 import com.bookmarks.dao.model.UserInfo;
+import com.bookmarks.service.BookmarkService;
 import com.bookmarks.service.MenuService;
 import com.bookmarks.service.SecurityService;
 import com.bookmarks.service.UserService;
@@ -35,6 +36,8 @@ public class StartController {
     private UserValidator userValidator;
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private BookmarkService bookmarkService;
 //
 //    @InitBinder
 //    protected void initBinder(WebDataBinder binder) {
@@ -80,20 +83,5 @@ public class StartController {
         System.out.println("in /registration post end");
         return "redirect:home";
 
-    }
-
-    @GetMapping("home")
-    public String home(Model model, @ModelAttribute("aimMenu") String nameMenu, @ModelAttribute("listBookmark") ArrayList<Bookmark> listBookmark) {
-        System.out.println("in /home");
-
-        if (listBookmark != null){
-            model.addAttribute("listBookmark", listBookmark);
-        }
-        
-        model.addAttribute("aimMenu", nameMenu);
-        model.addAttribute("menu", new Menu());
-        model.addAttribute("bookmark", new Bookmark());
-        model.addAttribute("listMenu", menuService.findAll());
-        return "home";
     }
 }
