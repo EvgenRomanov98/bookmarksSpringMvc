@@ -35,17 +35,17 @@ public class HomeController {
     @GetMapping
     public String home(Model model, @ModelAttribute("aimMenu") String nameMenu, @ModelAttribute("listBookmark") ArrayList<Bookmark> listBookmark) {
         System.out.println("in /home");
-
-        if (listBookmark != null){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (listBookmark != null) {
             model.addAttribute("listBookmark", listBookmark);
-        }else {
-            model.addAttribute("listBookmark", bookmarkService.findByFirstMenu());
+        } else {
+            model.addAttribute("listBookmark", bookmarkService.findBookmarkByFirstMenu());
         }
 
         model.addAttribute("aimMenu", nameMenu);
         model.addAttribute("menu", new Menu());
         model.addAttribute("bookmark", new Bookmark());
-        model.addAttribute("listMenu", menuService.findAll());
+        model.addAttribute("listMenu", menuService.findMenuByNameUser(userDetails.getUsername()));
         return "home";
     }
 
@@ -68,8 +68,13 @@ public class HomeController {
     @GetMapping("{menu}")
     public String selectMenuBookmark(@PathVariable("menu") String nameMenu, RedirectAttributes redirectAttributes) {
         System.out.println("-------- in /home/{menu}");
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("-------- in /home/{menu} --------2");
         redirectAttributes.addFlashAttribute("aimMenu", nameMenu);
-        redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findByMenu(nameMenu));
+        UserInfo userInfo = userService.findByUsername(userDetails.getUsername());
+        System.out.println("-------- in /home/{menu} --------3");
+        redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findBookmarkByMenuAndUserInfo(nameMenu, userInfo ));
+        System.out.println("-------- in /home/{menu} --------4");
 
         return "redirect:/home";
     }
@@ -77,9 +82,15 @@ public class HomeController {
     @PostMapping("/bookmark/add")
     public String addBookmarkInTargetMenu(@ModelAttribute Bookmark bookmark, @RequestParam("aimMenu") String nameMenu, RedirectAttributes redirectAttributes) {
         System.out.println("-------- in /home/bookmark/add");
-        bookmarkService.save(bookmark, menuService.findMenuByNameMenu(nameMenu));
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("-------- in /home/bookmark/add ---------2");
+        UserInfo userInfo = userService.findByUsername(userDetails.getUsername());
+        bookmarkService.save(bookmark, menuService.findMenuByNameMenu(nameMenu, userInfo), userInfo);
+        System.out.println("-------- in /home/bookmark/add ---------3");
         redirectAttributes.addFlashAttribute("aimMenu", nameMenu);
-        redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findByMenu(nameMenu));
+        System.out.println("-------- in /home/bookmark/add ---------4");
+        redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findBookmarkByMenuAndUserInfo(nameMenu, userService.findByUsername(userDetails.getUsername())));
+        System.out.println("-------- in /home/bookmark/add ---------5");
         return "redirect:/home";
     }
 }

@@ -1,6 +1,7 @@
 package com.bookmarks.service;
 
 import com.bookmarks.dao.model.Menu;
+import com.bookmarks.dao.model.UserInfo;
 import com.bookmarks.dao.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,11 @@ public class MenuService {
         return menuRepository.findAll();
     }
 
-    public Menu findMenuByNameMenu(String nameMenu){
-        return menuRepository.findByNameMenu(nameMenu);
+    public Menu findMenuByNameMenu(String nameMenu, UserInfo userInfo){
+        return menuRepository.findByNameMenuAndUserInfo(nameMenu, userInfo);
+    }
+
+    public List<Menu> findMenuByNameUser(String userName) {
+        return menuRepository.findMenuByUserInfo_Username(userName);
     }
 }

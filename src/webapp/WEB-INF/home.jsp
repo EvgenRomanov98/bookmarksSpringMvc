@@ -61,7 +61,7 @@
 <c:set var="user" value="${pageContext.request.userPrincipal}"/>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
-<h1>Hello ${user.name}</h1>
+<h1>Hello ${user.name} <a href="/logout" class="btn btn-warning"> exit </a> </h1>
 <div class="container-fluid">
     <div class="row">
 

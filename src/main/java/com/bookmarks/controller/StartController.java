@@ -34,16 +34,6 @@ public class StartController {
     private UserService userService;
     @Autowired
     private UserValidator userValidator;
-    @Autowired
-    private MenuService menuService;
-    @Autowired
-    private BookmarkService bookmarkService;
-//
-//    @InitBinder
-//    protected void initBinder(WebDataBinder binder) {
-//        binder.addValidators(userValidator);
-//    }
-
 
     @GetMapping
     public String start() {
