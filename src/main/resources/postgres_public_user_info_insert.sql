@@ -1,0 +1,2 @@
+INSERT INTO public.user_info (id, password, username) VALUES (1, '$2a$10$uw/TrA4h5AyExAAKvQzXFegAjQa6wIvscidN8LJg9I6UoscVupDgi', 'qwertyui');
+INSERT INTO public.user_info (id, password, username) VALUES (2, '$2a$10$7zgpSpIVH5oS0Zd9c1GN.ekxrTrvNpqkfnSntnqBOOpjCwubWcgaq', 'qwertyui2');
