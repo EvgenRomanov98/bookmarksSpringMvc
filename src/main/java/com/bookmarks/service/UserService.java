@@ -34,7 +34,7 @@ public class UserService {
 
     public User save(UserInfo userInfo) {
         try {
-            System.out.println("in method save in UserService 1");
+            System.out.println("in method save in UserService");
             userInfo.setPassword(bCryptPasswordEncoder.encode(userInfo.getPassword()));
             Role role = roleRepository.getOne(2L);
             Set<Role> roles = new HashSet<>(Collections.singleton(role));
@@ -42,14 +42,12 @@ public class UserService {
             userRepository.save(userInfo);
             // вконце создаем юзера для дальнейшей авторизации в StartController в методе registration()
 
-            System.out.println("in method save in UserService 2");
             Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 
             roles.forEach(v -> {
                 grantedAuthorities.add(new SimpleGrantedAuthority(v.getName()));
             });
 
-            System.out.println("in method save in UserService 3");
             return new User(userInfo.getUsername(), userInfo.getPassword(), grantedAuthorities);
         } catch (Exception e) {
             e.printStackTrace();

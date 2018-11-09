@@ -2,6 +2,7 @@ package com.bookmarks.service;
 
 import com.bookmarks.dao.model.Menu;
 import com.bookmarks.dao.model.UserInfo;
+import com.bookmarks.dao.repository.BookmarkRepository;
 import com.bookmarks.dao.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ import java.util.List;
 public class MenuService {
     @Autowired
     private MenuRepository menuRepository;
+    @Autowired
+    private BookmarkRepository bookmarkRepository;
 
     public void save(Menu menu) {
         menuRepository.save(menu);
@@ -29,5 +32,10 @@ public class MenuService {
 
     public List<Menu> findMenuByNameUser(String userName) {
         return menuRepository.findMenuByUserInfo_Username(userName);
+    }
+
+    public void deleteById(Long idBookmark) {
+        bookmarkRepository.deleteBookmarkByMenu_Id(idBookmark);
+        menuRepository.deleteById(idBookmark);
     }
 }

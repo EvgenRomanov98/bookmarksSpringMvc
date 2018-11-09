@@ -28,9 +28,9 @@ public class BookmarkService {
     }
 
     public List<Bookmark> findBookmarkByMenuAndUserInfo(String nameMenu, UserInfo userInfo) {
-        System.out.println("in findBookmarkByMenuAndUserInfo --1 ");
+        System.out.println("in findBookmarkByMenuAndUserInfo");
+
         Menu menu = menuRepository.findByNameMenuAndUserInfo(nameMenu, userInfo);
-        System.out.println("in findBookmarkByMenuAndUserInfo --2 ");
         return bookmarkRepository.findBookmarkByMenuAndUserInfo(menu, userInfo);
     }
 
@@ -42,5 +42,9 @@ public class BookmarkService {
     public List<Bookmark> findBookmarkByFirstMenu() {
         Menu menu = menuRepository.findAll().get(0);
         return bookmarkRepository.findBookmarkByMenu_Id(menu.getId());
+    }
+
+    public void deleteById(Long idBookmark) {
+        bookmarkRepository.deleteById(idBookmark);
     }
 }
