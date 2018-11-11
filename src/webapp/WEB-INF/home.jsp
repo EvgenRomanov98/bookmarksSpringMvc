@@ -60,7 +60,7 @@
 
 <c:set var="user" value="${pageContext.request.userPrincipal}"/>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-<%--/////////////////////////////////////////////////////////////////////////////////////////--%>
+<%--///////////////////////////////////   меню   //////////////////////////////////////////////////////--%>
 <h1>Hello ${user.name} <a href="/logout" class="btn btn-warning"> exit </a></h1>
 <div class="container-fluid">
     <div class="row">
@@ -94,7 +94,7 @@
                 </div>
             </c:forEach>
         </div>
-        <%--/////////////////////////////////////////////////////////////////////////////////////////--%>
+        <%--//////////////////////////////////////   добавление закладки   ///////////////////////////////////////////////////--%>
 
         <div class="col-md-10">
             <div>
@@ -117,7 +117,7 @@
                 </form:form>
             </div>
 
-            <%--/////////////////////////////////////////////////////////////////////////////////////////--%>
+            <%--///////////////////////////////////////   вывод всех закладок    //////////////////////////////////////////////////--%>
             <%--<div class="input-group">--%>
             <%--<table class="table table-sm table-dark table-hover">--%>
             <%--<c:forEach var="bookmark" items="${listBookmark}">--%>
@@ -150,64 +150,47 @@
                     <div class="input-group-append">
                         <a href="/home/bookmark/del/${aimMenu}/${bookmark.id}"><i
                                 class="fas fa-minus"></i></a>
-                        <%--<form action="/home/bookmark/del">--%>
-                            <%--<button id="minus" class="btn btn-outline-secondary myButton" type="button" name="delMenu"--%>
-                                    <%--value="${bookmark.id}"><i--%>
-                                    <%--class="fas fa-minus"></i>--%>
-                            <%--</button>--%>
-                        <%--</form>--%>
 
-                            <%--<form action="/home/bookmark/edit">--%>
-                            <%--<button id="edit" class="btn btn-outline-secondary myButton" type="button" name="delMenu"--%>
-                            <%--value="${bookmark.id}"><i--%>
-                            <%--class="fas fa-pen"></i></button>--%>
-                            <%--</form>--%>
-                        <a href="/home/bookmark/edit/${aimMenu}/${bookmark.id}"><i
-                                class="fas fa-pen"></i></a>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${bookmark.id}" data-whatever="@mdo"><i
+                                class="fas fa-pen"></i></button>
 
+                        <div class="modal fade" id="exampleModal${bookmark.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel${bookmark.id}" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel${bookmark.id}">Rename bookmark</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="editBookmark${bookmark.id}" action="/home/bookmark/edit/${aimMenu}/${bookmark.id}">
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Link</label>
+                                                <input type="text" class="form-control" id="recipient-name" placeholder="link bookmark" value=${bookmark.link}>
+                                                <label for="recipient-comment" class="col-form-label">comment</label>
+                                                <input type="text" class="form-control" id="recipient-comment" placeholder="comment bookmark" value=${bookmark.comment}>
+                                                <p>${bookmark.comment}</p>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" form="editBookmark${bookmark.id}" class="btn btn-primary">Ok</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </c:forEach>
 
             </div>
 
-            <%--/////////////////////////////////////////////////////////////////////////////////////////--%>
+            <%--//////////////////////////////////////////  конец  ///////////////////////////////////////////////--%>
         </div>
     </div>
 </div>
-
-
-<%--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>--%>
-
-<%--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">--%>
-<%--<div class="modal-dialog" role="document">--%>
-<%--<div class="modal-content">--%>
-<%--<div class="modal-header">--%>
-<%--<h5 class="modal-title" id="exampleModalLabel">New message</h5>--%>
-<%--<button type="button" class="close" data-dismiss="modal" aria-label="Close">--%>
-<%--<span aria-hidden="true">&times;</span>--%>
-<%--</button>--%>
-<%--</div>--%>
-<%--<div class="modal-body">--%>
-<%--<form>--%>
-<%--<div class="form-group">--%>
-<%--<label for="recipient-name" class="col-form-label">Recipient:</label>--%>
-<%--<input type="text" class="form-control" id="recipient-name">--%>
-<%--</div>--%>
-<%--<div class="form-group">--%>
-<%--<label for="message-text" class="col-form-label">Message:</label>--%>
-<%--<textarea class="form-control" id="message-text"></textarea>--%>
-<%--</div>--%>
-<%--</form>--%>
-<%--</div>--%>
-<%--<div class="modal-footer">--%>
-<%--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--%>
-<%--<button type="button" class="btn btn-primary">Send message</button>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-
 
 </body>
 <script>

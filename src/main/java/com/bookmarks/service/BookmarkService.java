@@ -39,8 +39,8 @@ public class BookmarkService {
         return bookmarkRepository.findBookmarkByMenuAndUserInfo(menu, userInfo);
     }
 
-    public List<Bookmark> findBookmarkByFirstMenu() {
-        Menu menu = menuRepository.findAll().get(0);
+    public List<Bookmark> findBookmarkByFirstMenu(String userName) {
+        Menu menu = menuRepository.findMenuByUserInfo_Username(userName).get(0);
         return bookmarkRepository.findBookmarkByMenu_Id(menu.getId());
     }
 

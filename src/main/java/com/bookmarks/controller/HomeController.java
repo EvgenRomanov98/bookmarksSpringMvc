@@ -30,21 +30,25 @@ public class HomeController {
     @Qualifier("userDetailServiceImpl")
     private UserDetailsService userDetailsService;
     @Autowired
+
     private UserService userService;
 
     @GetMapping
     public String home(Model model, @ModelAttribute("aimMenu") String nameMenu, @ModelAttribute("listBookmark") ArrayList<Bookmark> listBookmark) {
         System.out.println("in /home");
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (listBookmark != null) {
+        if (!listBookmark.isEmpty()) {
+            System.out.println("listBookmark != null " + listBookmark);
             model.addAttribute("listBookmark", listBookmark);
         } else {
-            model.addAttribute("listBookmark", bookmarkService.findBookmarkByFirstMenu());
+            System.out.println("listBookmark == null");
+            model.addAttribute("listBookmark", bookmarkService.findBookmarkByFirstMenu(userDetails.getUsername()));
         }
 
         model.addAttribute("aimMenu", nameMenu);
         model.addAttribute("menu", new Menu());
         model.addAttribute("bookmark", new Bookmark());
+        model.addAttribute("bookmarkEdit", new Bookmark());
         model.addAttribute("listMenu", menuService.findMenuByNameUser(userDetails.getUsername()));
         return "home";
     }
@@ -104,7 +108,10 @@ public class HomeController {
     }
 
     @GetMapping("/menu/edit/{aimMenu}/{idMenu}")
-    public String editMenu(@PathVariable("aimMenu") String aimMenu, @PathVariable("idMenu") int idBookmark, RedirectAttributes redirectAttributes) {
+    public String editMenu(@PathVariable("aimMenu") String aimMenu, @PathVariable("idMenu") int idMenu, RedirectAttributes redirectAttributes) {
+
+
+
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         redirectAttributes.addFlashAttribute("aimMenu", aimMenu);
