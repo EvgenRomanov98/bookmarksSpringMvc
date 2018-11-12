@@ -21,30 +21,39 @@ public class BookmarkService {
     @Autowired
     private MenuRepository menuRepository;
 
-    public void save(Bookmark bookmark, Menu menu, UserInfo userInfo) {
+    public void save(Bookmark bookmark, Menu menu) {
         bookmark.setMenu(menu);
-        bookmark.setUserInfo(userInfo);
         bookmarkRepository.save(bookmark);
     }
 
-    public List<Bookmark> findBookmarkByMenuAndUserInfo(String nameMenu, UserInfo userInfo) {
-        System.out.println("in findBookmarkByMenuAndUserInfo");
-
-        Menu menu = menuRepository.findByNameMenuAndUserInfo(nameMenu, userInfo);
-        return bookmarkRepository.findBookmarkByMenuAndUserInfo(menu, userInfo);
-    }
+//    public List<Bookmark> findBookmarkByMenuAndUserInfo(String nameMenu, UserInfo userInfo) {
+//        System.out.println("in findBookmarkByMenuAndUserInfo");
+//
+//        Menu menu = menuRepository.findByNameMenuAndUserInfo(nameMenu, userInfo);
+//        return bookmarkRepository.findBookmarkByMenuAndUserInfo(menu, userInfo);
+//    }
 
     //перегрузка, как возможный вариант вышестоящего метода
-    public List<Bookmark> findBookmarkByMenuAndUserInfo(Menu menu, UserInfo userInfo) {
-        return bookmarkRepository.findBookmarkByMenuAndUserInfo(menu, userInfo);
-    }
+//    public List<Bookmark> findBookmarkByMenuAndUserInfo(Menu menu, UserInfo userInfo) {
+//        return bookmarkRepository.findBookmarkByMenuAndUserInfo(menu, userInfo);
+//    }
 
     public List<Bookmark> findBookmarkByFirstMenu(String userName) {
-        Menu menu = menuRepository.findMenuByUserInfo_Username(userName).get(0);
-        return bookmarkRepository.findBookmarkByMenu_Id(menu.getId());
+        System.out.println("in  findBookmarkByFirstMenu service");
+        try {
+            Menu menu = menuRepository.findMenuByUserInfo_Username(userName).get(0);
+            return bookmarkRepository.findBookmarkByMenu_Id(menu.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<Bookmark>();
+        }
     }
 
     public void deleteById(Long idBookmark) {
         bookmarkRepository.deleteById(idBookmark);
+    }
+
+    public List<Bookmark> findBookmarkByMenu(Menu menu) {
+        return bookmarkRepository.findBookmarkByMenu(menu);
     }
 }

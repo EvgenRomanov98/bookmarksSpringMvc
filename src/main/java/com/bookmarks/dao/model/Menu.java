@@ -7,11 +7,9 @@ import java.util.List;
 
 @Data
 @Entity
-@TableGenerator(name="tab", initialValue=0, allocationSize=50)
 public class Menu {
     @Id
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @GeneratedValue(strategy=GenerationType.TABLE, generator="tab")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     @Column
     private String nameMenu;

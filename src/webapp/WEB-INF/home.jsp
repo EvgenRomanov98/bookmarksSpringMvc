@@ -84,12 +84,15 @@
             </div>
             <c:forEach var="menu" items="${listMenu}">
                 <div class="input-group">
-                    <a href="home/${menu.nameMenu}" class="btn btn-info">${menu.nameMenu}</a>
+                   <a href="/home/selectBookmark/${menu.id}" class="btn">${menu.nameMenu}</a>
                     <div class="input-group-append">
-                        <a href="/home/menu/del/${aimMenu}/${menu.id}"><i
+
+                        <a href="home/menu/del/${aimMenu.id}/${menu.id}"><i
                                 class="fas fa-minus"></i></a>
-                        <a href="/home/menu/edit/${aimMenu}/${menu.id}"><i
-                                class="fas fa-pen"></i></a>
+
+                        <%--<a href="/home/menu/edit/${aimMenu}/${menu.id}"><i--%>
+                                <%--class="fas fa-pen"></i></a>--%>
+
                     </div>
                 </div>
             </c:forEach>
@@ -98,7 +101,7 @@
 
         <div class="col-md-10">
             <div>
-                <span>Bookmark ${aimMenu}</span>
+                <span>Bookmark ${aimMenu.nameMenu}</span>
                 <button class="btn btn-success" type="button" onclick="showFormAddBookmark()"><i
                         class="fas fa-plus"></i>
                 </button>
@@ -112,7 +115,7 @@
                     <form:input type="text" class="form-control myInput" placeholder="comment"
                                 aria-label="Recipient's username"
                                 aria-describedby="basic-addon2" path="comment"></form:input>
-                    <button name="aimMenu" type="submit" class="btn btn-success" value="${aimMenu}">add bookmark
+                    <button name="aimMenuId" type="submit" class="btn btn-success" value="${aimMenu.id}">add bookmark
                     </button>
                 </form:form>
             </div>

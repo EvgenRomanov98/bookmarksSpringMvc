@@ -11,6 +11,7 @@ import java.util.List;
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
 
-    public Menu findByNameMenuAndUserInfo(String nameMenu, UserInfo userInfo);
-    public List<Menu> findMenuByUserInfo_Username(String userName);
+    Menu findByNameMenuAndUserInfo(String nameMenu, UserInfo userInfo);
+    List<Menu> findMenuByUserInfo_Username(String userName);
+    Menu findMenuById(Long idMenu);
 }

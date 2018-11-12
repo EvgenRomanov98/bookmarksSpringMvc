@@ -6,11 +6,10 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@TableGenerator(name="tab", initialValue=0, allocationSize=50)
 public class Bookmark {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.TABLE, generator="tab")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     @Column
     private String link;
@@ -19,6 +18,16 @@ public class Bookmark {
     @ManyToOne
     private Menu menu;
 
-    @ManyToOne
-    private UserInfo userInfo;
+    public Bookmark(String comment) {
+        this.comment = comment;
+    }
+
+    public Bookmark() {
+    }
+
+    public Bookmark(String link, String comment, Menu menu) {
+        this.link = link;
+        this.comment = comment;
+        this.menu = menu;
+    }
 }

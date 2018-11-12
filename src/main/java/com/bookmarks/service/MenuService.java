@@ -22,11 +22,11 @@ public class MenuService {
         menuRepository.save(menu);
     }
 
-    public List<Menu> findAll(){
+    public List<Menu> findAll() {
         return menuRepository.findAll();
     }
 
-    public Menu findMenuByNameMenu(String nameMenu, UserInfo userInfo){
+    public Menu findMenuByNameMenu(String nameMenu, UserInfo userInfo) {
         return menuRepository.findByNameMenuAndUserInfo(nameMenu, userInfo);
     }
 
@@ -37,5 +37,19 @@ public class MenuService {
     public void deleteById(Long idBookmark) {
         bookmarkRepository.deleteBookmarkByMenu_Id(idBookmark);
         menuRepository.deleteById(idBookmark);
+    }
+
+    public Menu findMenuById(Long idMenu) {
+        return menuRepository.findMenuById(idMenu);
+    }
+
+    public Menu findFirstMenuOfThisUser(UserInfo userInfo) {
+        try {
+            return menuRepository.findAll().get(0);
+        } catch (Exception e) {
+            System.out.println("catch in findFirstMenuOfThisUser menuService");
+            e.printStackTrace();
+            return null;
+        }
     }
 }

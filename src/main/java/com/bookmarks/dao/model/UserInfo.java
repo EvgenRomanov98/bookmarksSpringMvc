@@ -16,10 +16,9 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"roles", "listMenu"})
 @Entity
 @Table(name = "user_info")
-@TableGenerator(name="tab", initialValue=0, allocationSize=50)
 public class UserInfo {
     @Id
-    @GeneratedValue(strategy=GenerationType.TABLE, generator="tab")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String username;
     private String password;

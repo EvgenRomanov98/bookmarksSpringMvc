@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 @Controller
 @RequestMapping("/home")
@@ -33,25 +34,39 @@ public class HomeController {
 
     private UserService userService;
 
+    //    @GetMapping
+//    public String home(Model model, @ModelAttribute("aimMenu") String nameMenu, @ModelAttribute("listBookmark") ArrayList<Bookmark> listBookmark) {
+//        System.out.println("in /home");
+//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        if (!listBookmark.isEmpty()) {
+//            System.out.println("listBookmark != null " + listBookmark);
+//            model.addAttribute("listBookmark", listBookmark);
+//        } else if (){
+//            System.out.println("listBookmark == null");
+//            model.addAttribute("listBookmark", new ArrayList<Bookmark>(Collections.singleton(new Bookmark("у вас пока нет закладок"))));
+//        }
+//
+//        model.addAttribute("aimMenu", nameMenu);
+//        model.addAttribute("menu", new Menu());
+//        model.addAttribute("bookmark", new Bookmark());
+//        model.addAttribute("bookmarkEdit", new Bookmark());
+//        model.addAttribute("listMenu", menuService.findMenuByNameUser(userDetails.getUsername()));
+//        return "home";
+//    }
     @GetMapping
-    public String home(Model model, @ModelAttribute("aimMenu") String nameMenu, @ModelAttribute("listBookmark") ArrayList<Bookmark> listBookmark) {
+    public String home(Model model, @ModelAttribute("aimMenu") Menu aimMenu, @ModelAttribute("listBookmark") ArrayList<Bookmark> listBookmark) {
         System.out.println("in /home");
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!listBookmark.isEmpty()) {
-            System.out.println("listBookmark != null " + listBookmark);
-            model.addAttribute("listBookmark", listBookmark);
-        } else {
-            System.out.println("listBookmark == null");
-            model.addAttribute("listBookmark", bookmarkService.findBookmarkByFirstMenu(userDetails.getUsername()));
-        }
 
-        model.addAttribute("aimMenu", nameMenu);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("aimMenu", aimMenu);
+        model.addAttribute("listBookmark", listBookmark);
         model.addAttribute("menu", new Menu());
         model.addAttribute("bookmark", new Bookmark());
-        model.addAttribute("bookmarkEdit", new Bookmark());
         model.addAttribute("listMenu", menuService.findMenuByNameUser(userDetails.getUsername()));
+
         return "home";
     }
+
 
     @PostMapping("/menu/add")
     public String add(@ModelAttribute Menu menu, Model model) {
@@ -69,79 +84,90 @@ public class HomeController {
         return "redirect:/home";
     }
 
-    @GetMapping("{menu}")
-    public String selectMenuBookmark(@PathVariable("menu") String nameMenu, RedirectAttributes redirectAttributes) {
-        System.out.println("-------- in /home/{menu}");
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        redirectAttributes.addFlashAttribute("aimMenu", nameMenu);
-        UserInfo userInfo = userService.findByUsername(userDetails.getUsername());
+    @GetMapping("/selectBookmark/{idMenu}")
+    public String selectMenuBookmark(@PathVariable("idMenu") Long idMenu, RedirectAttributes redirectAttributes) {
+        System.out.println("-------- in /home/selectBookmark");
 
-        redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findBookmarkByMenuAndUserInfo(nameMenu, userInfo));
+        Menu aimMenu = menuService.findMenuById(idMenu);
+        redirectAttributes.addFlashAttribute("aimMenu", aimMenu);
+        redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findBookmarkByMenu(aimMenu));
 
         return "redirect:/home";
     }
 
     @PostMapping("/bookmark/add")
-    public String addBookmarkInTargetMenu(@ModelAttribute Bookmark bookmark, @RequestParam("aimMenu") String aimMenu, RedirectAttributes redirectAttributes) {
+    public String addBookmarkInTargetMenu(@ModelAttribute Bookmark bookmark, @RequestParam("aimMenuId") Long
+            aimMenuId, RedirectAttributes redirectAttributes) {
+
         System.out.println("-------- in /home/bookmark/add");
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserInfo userInfo = userService.findByUsername(userDetails.getUsername());
-        bookmarkService.save(bookmark, menuService.findMenuByNameMenu(aimMenu, userInfo), userInfo);
+        Menu aimMenu = menuService.findMenuById(aimMenuId);
+        bookmarkService.save(bookmark, aimMenu);
 
         redirectAttributes.addFlashAttribute("aimMenu", aimMenu);
-        redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findBookmarkByMenuAndUserInfo(aimMenu, userService.findByUsername(userDetails.getUsername())));
+        redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findBookmarkByMenu(aimMenu));
 
         return "redirect:/home";
     }
 
-    @GetMapping("/menu/del/{aimMenu}/{idMenu}")
-    public String delMenu(@PathVariable("aimMenu") String aimMenu, @PathVariable("idMenu") Long idBookmark, RedirectAttributes redirectAttributes) {
+    @GetMapping("/menu/del/{aimMenuId}/{idMenu}")
+    public String delMenu(@PathVariable("aimMenuId") Long aimMenuId, @PathVariable("idMenu") Long
+            idMenuDel, RedirectAttributes redirectAttributes) {
+        System.out.println("home/menu/del/{aimMenuId}/{idMenu}");
+        menuService.deleteById(idMenuDel);
 
-        menuService.deleteById(idBookmark);
-
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Menu aimMenu;
+        if (aimMenuId.longValue() == idMenuDel.longValue()) {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            UserInfo userInfo = userService.findByUsername(userDetails.getUsername());
+            aimMenu = menuService.findFirstMenuOfThisUser(userInfo);
+        } else {
+            aimMenu = menuService.findMenuById(aimMenuId);
+        }
 
         redirectAttributes.addFlashAttribute("aimMenu", aimMenu);
-        redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findBookmarkByMenuAndUserInfo(aimMenu, userService.findByUsername(userDetails.getUsername())));
+        redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findBookmarkByMenu(aimMenu));
 
         return "redirect:/home";
     }
 
-    @GetMapping("/menu/edit/{aimMenu}/{idMenu}")
-    public String editMenu(@PathVariable("aimMenu") String aimMenu, @PathVariable("idMenu") int idMenu, RedirectAttributes redirectAttributes) {
-
-
-
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        redirectAttributes.addFlashAttribute("aimMenu", aimMenu);
-        redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findBookmarkByMenuAndUserInfo(aimMenu, userService.findByUsername(userDetails.getUsername())));
-
-        return "redirect:/home";
-    }
-
-    @GetMapping("/bookmark/del/{aimMenu}/{idBookmark}")
-    public String delBookmark(@PathVariable("aimMenu") String aimMenu, @PathVariable("idBookmark") Long idBookmark, RedirectAttributes redirectAttributes) {
-
-        bookmarkService.deleteById(idBookmark);
-
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        redirectAttributes.addFlashAttribute("aimMenu", aimMenu);
-        redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findBookmarkByMenuAndUserInfo(aimMenu, userService.findByUsername(userDetails.getUsername())));
-
-        return "redirect:/home";
-    }
-
-    @GetMapping("/bookmark/edit/{aimMenu}/{idBookmark}")
-    public String editBookmark(@PathVariable("aimMenu") String aimMenu, @PathVariable("idBookmark") int idBookmark, RedirectAttributes redirectAttributes) {
-        System.out.println("aimMenu = " + aimMenu + "idBookmark = " + idBookmark);
-
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        redirectAttributes.addFlashAttribute("aimMenu", aimMenu);
-        redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findBookmarkByMenuAndUserInfo(aimMenu, userService.findByUsername(userDetails.getUsername())));
-
-        return "redirect:/home";
-    }
+//    @GetMapping("/menu/edit/{aimMenu}/{idMenu}")
+//    public String editMenu(@PathVariable("aimMenu") String aimMenu,
+//                           @PathVariable("idMenu") int idMenu, RedirectAttributes redirectAttributes) {
+//
+//
+//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//        redirectAttributes.addFlashAttribute("aimMenu", aimMenu);
+//        redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findBookmarkByMenuAndUserInfo(aimMenu, userService.findByUsername(userDetails.getUsername())));
+//
+//        return "redirect:/home";
+//    }
+//
+//    @GetMapping("/bookmark/del/{aimMenu}/{idBookmark}")
+//    public String delBookmark(@PathVariable("aimMenu") String aimMenu, @PathVariable("idBookmark") Long
+//            idBookmark, RedirectAttributes redirectAttributes) {
+//
+//        bookmarkService.deleteById(idBookmark);
+//
+//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//        redirectAttributes.addFlashAttribute("aimMenu", aimMenu);
+//        redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findBookmarkByMenuAndUserInfo(aimMenu, userService.findByUsername(userDetails.getUsername())));
+//
+//        return "redirect:/home";
+//    }
+//
+//    @GetMapping("/bookmark/edit/{aimMenu}/{idBookmark}")
+//    public String editBookmark(@PathVariable("aimMenu") String aimMenu,
+//                               @PathVariable("idBookmark") int idBookmark, RedirectAttributes redirectAttributes) {
+//        System.out.println("aimMenu = " + aimMenu + "idBookmark = " + idBookmark);
+//
+//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//        redirectAttributes.addFlashAttribute("aimMenu", aimMenu);
+//        redirectAttributes.addFlashAttribute("listBookmark", bookmarkService.findBookmarkByMenuAndUserInfo(aimMenu, userService.findByUsername(userDetails.getUsername())));
+//
+//        return "redirect:/home";
+//    }
 }

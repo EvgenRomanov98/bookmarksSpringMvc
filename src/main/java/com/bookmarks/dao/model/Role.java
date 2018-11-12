@@ -14,13 +14,12 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = "userInfo")
 @Entity
 @Table(name = "role")
-@TableGenerator(name="tab", initialValue=0, allocationSize=50)
 public class Role {
     @Id
-    @GeneratedValue(strategy=GenerationType.TABLE, generator="tab")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String name;
-   
+
     @ManyToMany(mappedBy = "roles")
     private Set<UserInfo> userInfo;
 
