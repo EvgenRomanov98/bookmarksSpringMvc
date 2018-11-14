@@ -56,4 +56,12 @@ public class BookmarkService {
     public List<Bookmark> findBookmarkByMenu(Menu menu) {
         return bookmarkRepository.findBookmarkByMenu(menu);
     }
+
+    public Bookmark findBookmarkById(Long editBookmarkId) {
+        return bookmarkRepository.findBookmarkById(editBookmarkId);
+    }
+
+    public void saveAndFlush(Bookmark editBookmark) {
+        bookmarkRepository.saveAndFlush(editBookmark);
+    }
 }

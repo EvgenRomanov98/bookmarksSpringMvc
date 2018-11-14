@@ -34,9 +34,9 @@ public class MenuService {
         return menuRepository.findMenuByUserInfo_Username(userName);
     }
 
-    public void deleteById(Long idBookmark) {
-        bookmarkRepository.deleteBookmarkByMenu_Id(idBookmark);
-        menuRepository.deleteById(idBookmark);
+    public void deleteById(Long idMenu) {
+        bookmarkRepository.deleteBookmarkByMenu_Id(idMenu);
+        menuRepository.deleteById(idMenu);
     }
 
     public Menu findMenuById(Long idMenu) {
@@ -51,5 +51,9 @@ public class MenuService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void saveAndFlush(Menu editMenu) {
+        menuRepository.saveAndFlush(editMenu);
     }
 }

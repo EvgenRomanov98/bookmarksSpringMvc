@@ -84,14 +84,48 @@
             </div>
             <c:forEach var="menu" items="${listMenu}">
                 <div class="input-group">
-                   <a href="/home/selectBookmark/${menu.id}" class="btn">${menu.nameMenu}</a>
+                    <a href="/home/selectBookmark/${menu.id}" class="btn">${menu.nameMenu}</a>
                     <div class="input-group-append">
 
                         <a href="home/menu/del/${aimMenu.id}/${menu.id}"><i
                                 class="fas fa-minus"></i></a>
 
-                        <%--<a href="/home/menu/edit/${aimMenu}/${menu.id}"><i--%>
-                                <%--class="fas fa-pen"></i></a>--%>
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#exampleModal${menu.id}" data-whatever="@mdo"><i
+                                class="fas fa-pen"></i></button>
+
+                        <div class="modal fade" id="exampleModal${menu.id}" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel${menu.id}" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel${menu.id}">Rename Menu</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="editMenu${menu.id}"
+                                              action="/home/menu/edit/${aimMenu.id}/${menu.id}" method="post">
+                                            <div class="form-group">
+                                                <label for="recipient-name${menu.id}"
+                                                       class="col-form-label">Menu</label>
+                                                <input type="text" class="form-control"
+                                                       id="recipient-name${menu.id}"
+                                                       placeholder="name Menu" name="nameMenu">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                        <button type="submit" form="editMenu${menu.id}" class="btn btn-primary">
+                                            Ok
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -146,49 +180,63 @@
             <%--</c:forEach>--%>
             <%--</table>--%>
 
-            <div class="input-group">
-                <c:forEach var="bookmark" items="${listBookmark}">
+
+            <c:forEach var="bookmark" items="${listBookmark}">
+                <div class="input-group">
                     <a href="${bookmark.link}">${bookmark.link}</a>
                     <span>${bookmark.comment}</span>
                     <div class="input-group-append">
-                        <a href="/home/bookmark/del/${aimMenu}/${bookmark.id}"><i
+                        <a href="/home/bookmark/del/${aimMenu.id}/${bookmark.id}"><i
                                 class="fas fa-minus"></i></a>
 
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${bookmark.id}" data-whatever="@mdo"><i
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#exampleModal${bookmark.id}bookmark" data-whatever="@mdo"><i
                                 class="fas fa-pen"></i></button>
 
-                        <div class="modal fade" id="exampleModal${bookmark.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel${bookmark.id}" aria-hidden="true">
+                        <div class="modal fade" id="exampleModal${bookmark.id}bookmark" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel${bookmark.id}bookmark" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel${bookmark.id}">Rename bookmark</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel${bookmark.id}bookmark">Rename
+                                            bookmark</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="editBookmark${bookmark.id}" action="/home/bookmark/edit/${aimMenu}/${bookmark.id}">
+                                        <form id="editBookmark${bookmark.id}bookmark"
+                                              action="/home/bookmark/edit/${aimMenu.id}/${bookmark.id}">
                                             <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Link</label>
-                                                <input type="text" class="form-control" id="recipient-name" placeholder="link bookmark" value=${bookmark.link}>
-                                                <label for="recipient-comment" class="col-form-label">comment</label>
-                                                <input type="text" class="form-control" id="recipient-comment" placeholder="comment bookmark" value=${bookmark.comment}>
-                                                <p>${bookmark.comment}</p>
+                                                <label for="recipient-name${bookmark.id}bookmark"
+                                                       class="col-form-label">Link</label>
+                                                <input type="text" class="form-control"
+                                                       id="recipient-name${bookmark.id}bookmark"
+                                                       placeholder="link bookmark" value="${bookmark.link}" name="bookmarkLink">
+                                                <label for="recipient-comment${bookmark.id}bookmark"
+                                                       class="col-form-label">comment</label>
+                                                <input type="text" class="form-control"
+                                                       id="recipient-comment${bookmark.id}bookmark"
+                                                       placeholder="comment bookmark" value="${bookmark.comment}" name="bookmarkComment">
                                             </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" form="editBookmark${bookmark.id}" class="btn btn-primary">Ok</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                        <button type="submit" form="editBookmark${bookmark.id}bookmark"
+                                                class="btn btn-primary">
+                                            Ok
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                     </div>
-                </c:forEach>
+                </div>
+            </c:forEach>
 
-            </div>
 
             <%--//////////////////////////////////////////  конец  ///////////////////////////////////////////////--%>
         </div>
