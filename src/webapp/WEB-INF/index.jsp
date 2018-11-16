@@ -29,17 +29,34 @@
             text-decoration: none;
         }
 
+        .section{
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
         .title-text {
             text-align: center;
         }
 
         body {
-            background: darksalmon;
+            display: flex;
+            background: url("../resources/style/art.jpg")  no-repeat fixed;
+            background-size: 100% auto;
         }
+        p {
+            font-family: 'Amatic SC', cursive;
+            font-size: 200px;
+            margin-top:-20px;
+        }
+
     </style>
+
 </head>
 <body>
 <div class="section">
+    <p>BOOKMARK <i class="far fa-bookmark"></i></p>
     <div class="title-text">
         <button type="button" class="btn btn-secondary"><a href="/registration"> Sing up </a></button>
         <button type="button" class="btn btn-secondary"><a href="/login"> Sing in </a></button>
