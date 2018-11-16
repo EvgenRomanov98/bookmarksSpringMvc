@@ -59,8 +59,9 @@
 <body>
 
 <c:set var="user" value="${pageContext.request.userPrincipal}"/>
-<c:set var="path" value="${pageContext.request.contextPath}"/>
+
 <%--///////////////////////////////////   меню   //////////////////////////////////////////////////////--%>
+
 <h1>Hello ${user.name} <a href="/logout" class="btn btn-warning"> exit </a></h1>
 <div class="container-fluid">
     <div class="row">
@@ -82,6 +83,8 @@
                     <button type="submit" class="btn btn-success">add menu</button>
                 </form:form>
             </div>
+
+            <c:if test="${listMenu.size() != 0}">
             <c:forEach var="menu" items="${listMenu}">
                 <div class="input-group">
                     <a href="/home/selectBookmark/${menu.id}" class="btn">${menu.nameMenu}</a>
@@ -126,11 +129,13 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </c:forEach>
+            </c:if>
+
         </div>
+
         <%--//////////////////////////////////////   добавление закладки   ///////////////////////////////////////////////////--%>
 
         <div class="col-md-10">
@@ -154,33 +159,11 @@
                 </form:form>
             </div>
 
+
             <%--///////////////////////////////////////   вывод всех закладок    //////////////////////////////////////////////////--%>
-            <%--<div class="input-group">--%>
-            <%--<table class="table table-sm table-dark table-hover">--%>
-            <%--<c:forEach var="bookmark" items="${listBookmark}">--%>
-            <%--<tbody>--%>
-            <%--<tr>--%>
-            <%--<td><a href="${bookmark.link}">${bookmark.link}</a></td>--%>
-            <%--<td><span>${bookmark.comment}</span></td>--%>
-            <%--<td>--%>
-            <%--<div class="input-group-append">--%>
-            <%--<form action="/home/bookmark/del">--%>
-            <%--<button id="minus" class="btn btn-outline-secondary myButton" type="submit"><i--%>
-            <%--class="fas fa-minus"></i>--%>
-            <%--</button>--%>
-            <%--</form>--%>
-            <%--<form action="/home/bookmark/edit">--%>
-            <%--<button id="edit" class="btn btn-outline-secondary myButton" type="submit"><i--%>
-            <%--class="fas fa-pen"></i></button>--%>
-            <%--</form>--%>
-            <%--</div>--%>
-            <%--</td>--%>
-            <%--</tr>--%>
-            <%--</tbody>--%>
-            <%--</c:forEach>--%>
-            <%--</table>--%>
 
 
+            <c:if test="${listBookmark.size() != 0}">
             <c:forEach var="bookmark" items="${listBookmark}">
                 <div class="input-group">
                     <a href="${bookmark.link}">${bookmark.link}</a>
@@ -236,9 +219,12 @@
                     </div>
                 </div>
             </c:forEach>
+            </c:if>
 
 
             <%--//////////////////////////////////////////  конец  ///////////////////////////////////////////////--%>
+
+
         </div>
     </div>
 </div>

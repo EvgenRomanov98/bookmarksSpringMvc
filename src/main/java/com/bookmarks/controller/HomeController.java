@@ -40,33 +40,25 @@ public class HomeController {
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        System.out.println("listBookmak = " + listBookmark);
+        System.out.println("listBookmark = " + listBookmark);
         System.out.println(listBookmark.isEmpty());
 
-        if (aimMenu.getId() == null && listBookmark.isEmpty()){
-            aimMenu = menuService.findAll().get(0);
-            listBookmark = (ArrayList<Bookmark>) bookmarkService.findBookmarkByMenu(aimMenu);
+        if (aimMenu.getId() == null && listBookmark.isEmpty()) {
+            List<Menu> listMenu = menuService.findAll();
+            if (!listMenu.isEmpty()) {
+                listBookmark = (ArrayList<Bookmark>) bookmarkService.findBookmarkByFirstMenu(userDetails.getUsername());
+                aimMenu = listMenu.get(0);
+                model.addAttribute("aimMenu", aimMenu);
+                model.addAttribute("listBookmark", listBookmark);
+            } else {
+                model.addAttribute("aimMenu", aimMenu);
+                model.addAttribute("listBookmark", listBookmark);
+            }
 
-            model.addAttribute("aimMenu", aimMenu);
-            model.addAttribute("listBookmark", listBookmark);
-        }else {
+        } else {
             model.addAttribute("aimMenu", aimMenu);
             model.addAttribute("listBookmark", listBookmark);
         }
-//        if (!listBookmark.isEmpty()) {
-//            System.out.println("no empty");
-//            model.addAttribute("listBookmark", listBookmark);
-//        } else {
-//            System.out.println("listBookmark empty");
-//            listBookmark = new ArrayList<>(bookmarkService.findBookmarkByFirstMenu(userDetails.getUsername()));
-//            model.addAttribute("listBookmark", listBookmark);
-//        }
-//
-//        if (aimMenu.getId() == null) {
-//            model.addAttribute("aimMenu", listBookmark.get(0).getMenu());
-//        } else {
-//            model.addAttribute("aimMenu", aimMenu);
-//        }
 
 
         model.addAttribute("menu", new Menu());
@@ -78,7 +70,7 @@ public class HomeController {
 
 
     @PostMapping("/menu/add")
-    public String add(@ModelAttribute Menu menu, Model model) {
+    public String add(@ModelAttribute Menu menu, RedirectAttributes redirectAttributes) {
         System.out.println("-------- in /home/menu/add");
         System.out.println(menu.toString());
 
@@ -90,6 +82,8 @@ public class HomeController {
 
         menu.setUserInfo(userInfo);
         menuService.save(menu);
+
+        redirectAttributes.addFlashAttribute("aimMenu", menu);
         return "redirect:/home";
     }
 
