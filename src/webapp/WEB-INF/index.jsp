@@ -9,58 +9,36 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-            crossorigin="anonymous"></script>
+    <link href="../resources/css/index.css" rel="stylesheet">
 
     <title>index</title>
-    <style>
-        .section a {
-            color: lightyellow;
-            text-transform: uppercase;
-            text-decoration: none;
-        }
-
-        .section{
-            position: absolute;
-            top: 25%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .title-text {
-            text-align: center;
-        }
-
-        body {
-            display: flex;
-            background: url("../resources/style/art.jpg")  no-repeat fixed;
-            background-size: 100% auto;
-        }
-        p {
-            font-family: 'Amatic SC', cursive;
-            font-size: 200px;
-            margin-top:-20px;
-        }
-
-    </style>
-
 </head>
 <body>
-<div class="section">
-    <p>BOOKMARK <i class="far fa-bookmark"></i></p>
-    <div class="title-text">
-        <button type="button" class="btn btn-secondary"><a href="/registration"> Sing up </a></button>
-        <button type="button" class="btn btn-secondary"><a href="/login"> Sing in </a></button>
+
+<section class="main-section">
+    <img src="../resources/image/bg-2.jpg" class="img-fluid main-img">
+    <div class="back-fon">
+        <div class="container text-center text-container">
+            <div class="row content">
+                <div class="col-lg-10 main-text col-md-10 col-12 mr-auto ml-auto">
+                    <h4 class="main-title">
+                        bookmarks
+                    </h4>
+                    <p class="text-description">
+                        Save your visits to websites to facilitate work on the Internet
+                    </p>
+                    <a href="/registration" class="btn btn-white btn-lg">Sing up</a>
+                    <a href="/login" class="btn btn-white btn-lg">Sing in</a>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 </body>
 </html>
