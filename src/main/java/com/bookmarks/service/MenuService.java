@@ -43,9 +43,15 @@ public class MenuService {
         return menuRepository.findMenuById(idMenu);
     }
 
-    public Menu findFirstMenuOfThisUser(UserInfo userInfo) {
+    public Menu findFirstMenuOfThisUser(String userName) {
         try {
-            return menuRepository.findAll().get(0);
+            System.out.println("in findFirstMenuOfThisUser");
+            List<Menu> menuList = menuRepository.findMenuByUserInfo_Username(userName);
+            if (!menuList.isEmpty()) {
+                return menuList.get(0);
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             System.out.println("catch in findFirstMenuOfThisUser menuService");
             e.printStackTrace();

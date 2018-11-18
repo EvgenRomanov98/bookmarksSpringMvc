@@ -42,9 +42,8 @@ public class HomeController {
 
         System.out.println("listBookmark = " + listBookmark);
         System.out.println(listBookmark.isEmpty());
-
-        if (aimMenu.getId() == null && listBookmark.isEmpty()) {
-            List<Menu> listMenu = menuService.findAll();
+        if (aimMenu == null && listBookmark.isEmpty()) {
+            List<Menu> listMenu = menuService.findMenuByNameUser(userDetails.getUsername());
             if (!listMenu.isEmpty()) {
                 listBookmark = (ArrayList<Bookmark>) bookmarkService.findBookmarkByFirstMenu(userDetails.getUsername());
                 aimMenu = listMenu.get(0);
@@ -59,8 +58,6 @@ public class HomeController {
             model.addAttribute("aimMenu", aimMenu);
             model.addAttribute("listBookmark", listBookmark);
         }
-
-
         model.addAttribute("menu", new Menu());
         model.addAttribute("bookmark", new Bookmark());
         model.addAttribute("listMenu", menuService.findMenuByNameUser(userDetails.getUsername()));
@@ -118,14 +115,18 @@ public class HomeController {
             idMenuDel, RedirectAttributes redirectAttributes) {
         System.out.println("home/menu/del/{aimMenuId}/{idMenu}");
 
+        System.out.println("aimMenuId = "+aimMenuId);
+        System.out.println("idMenu = "+idMenuDel);
+
         menuService.deleteById(idMenuDel);
 
         Menu aimMenu;
         if (aimMenuId.longValue() == idMenuDel.longValue()) {
+            System.out.println("aimMenuId.longValue() == idMenuDel.longValue()");
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            UserInfo userInfo = userService.findByUsername(userDetails.getUsername());
-            aimMenu = menuService.findFirstMenuOfThisUser(userInfo);
+            aimMenu = menuService.findFirstMenuOfThisUser(userDetails.getUsername());
         } else {
+            System.out.println("else = " + aimMenuId);
             aimMenu = menuService.findMenuById(aimMenuId);
         }
 

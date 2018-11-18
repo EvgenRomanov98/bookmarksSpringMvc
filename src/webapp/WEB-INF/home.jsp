@@ -91,8 +91,8 @@
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" form="addMenuForm" class="btn btn-secondary">Okay</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
@@ -159,12 +159,12 @@
                                                         </form>
                                                     </div>
                                                     <div class="modal-footer">
+                                                        <button type="submit" form="editMenuForm${menu.id}"
+                                                        class="btn btn-secondary">Okay
+                                                        </button>
                                                         <button type="button" class="btn btn-secondary"
                                                                 data-dismiss="modal">
                                                             Close
-                                                        </button>
-                                                        <button type="submit" form="editMenuForm${menu.id}"
-                                                                class="btn btn-secondary">Okay
                                                         </button>
                                                     </div>
                                                 </div>
@@ -222,11 +222,11 @@
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" form="addBookmarkForm" class="btn btn-secondary"
                                         value="${aimMenu.id}"
-                                        name="aimMenuId">Okay
+                                name="aimMenuId">Okay
                                 </button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
@@ -303,13 +303,13 @@
                                                 </form>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">
-                                                    Close
-                                                </button>
                                                 <button type="submit" form="editBookmark${bookmark.id}bookmark"
                                                         class="btn btn-secondary">
                                                     Okay
+                                                </button>
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">
+                                                    Close
                                                 </button>
                                             </div>
                                         </div>
