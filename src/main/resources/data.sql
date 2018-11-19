@@ -1,3 +1,61 @@
+create table bookmark
+(
+	id bigserial not null
+		constraint bookmark_pkey
+			primary key,
+	comment varchar(255),
+	link varchar(255),
+	menu_id bigint
+		constraint fkrspmcoy5hlhnd4i2ux4dnwp5
+			references menu
+)
+;
+
+create table menu
+(
+	id bigserial not null
+		constraint menu_pkey
+			primary key,
+	namemenu varchar(255),
+	userinfo_id bigint
+		constraint fk6geola2edbdirxjewv2fx7c8c
+			references user_info
+)
+;
+
+create table role
+(
+	id bigserial not null
+		constraint role_pkey
+			primary key,
+	name varchar(255)
+)
+;
+
+create table user_info
+(
+	id bigserial not null
+		constraint user_info_pkey
+			primary key,
+	password varchar(255),
+	username varchar(255)
+)
+;
+
+create table user_role
+(
+	user_id bigint not null
+		constraint fkm90yi1ak9h9tbct25k3km0hia
+			references user_info,
+	role_id bigint not null
+		constraint fka68196081fvovjhkek5m97n3y
+			references role,
+	constraint user_role_pkey
+		primary key (user_id, role_id)
+)
+;
+
+
 INSERT  INTO role VALUES (1, 'ROLE_ADMIN');
 INSERT  INTO role VALUES (2, 'ROLE_USER');
 
