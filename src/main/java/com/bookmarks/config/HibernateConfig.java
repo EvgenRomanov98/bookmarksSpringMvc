@@ -44,15 +44,15 @@ public class HibernateConfig {
     @Value("${spring.jpa.properties.hibernate.enable_lazy_load_no_trans}")
     private String lazyLoad;
 
-//    @Bean
-//    public DataSource dataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName(driverClassName);
-//        dataSource.setUrl(jdbcUrl);
-//        dataSource.setUsername(userName);
-//        dataSource.setPassword(password);
-//        return dataSource;
-//    }
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setUrl(jdbcUrl);
+        dataSource.setUsername(userName);
+        dataSource.setPassword(password);
+        return dataSource;
+    }
 
 
     private Properties hibernateProperties() {
@@ -84,19 +84,19 @@ public class HibernateConfig {
         return transactionManager;
     }
 
-    @Bean
-    public DataSource dataSource() throws URISyntaxException {
-        URI dbUri = new URI(System.getenv("DATABASE_URL"));
-
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
-
-        DriverManagerDataSource basicDataSource = new DriverManagerDataSource();
-        basicDataSource.setUrl(dbUrl);
-        basicDataSource.setUsername(username);
-        basicDataSource.setPassword(password);
-
-        return basicDataSource;
-    }
+//    @Bean
+//    public DataSource dataSource() throws URISyntaxException {
+//        URI dbUri = new URI(System.getenv("DATABASE_URL"));
+//
+//        String username = dbUri.getUserInfo().split(":")[0];
+//        String password = dbUri.getUserInfo().split(":")[1];
+//        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+//
+//        DriverManagerDataSource basicDataSource = new DriverManagerDataSource();
+//        basicDataSource.setUrl(dbUrl);
+//        basicDataSource.setUsername(username);
+//        basicDataSource.setPassword(password);
+//
+//        return basicDataSource;
+//    }
 }
