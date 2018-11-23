@@ -16,13 +16,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Controller
 @RequestMapping("/home")
-public class HomeController {
+public class HomeController
+{
 
     @Autowired
     private BookmarkService bookmarkService;
@@ -35,29 +39,55 @@ public class HomeController {
     private UserService userService;
 
     @GetMapping
-    public String home(Model model, @ModelAttribute("aimMenu") Menu aimMenu, @ModelAttribute("listBookmark") ArrayList<Bookmark> listBookmark) {
+    public String home(Model model, @ModelAttribute("aimMenu") Menu aimMenu,
+                       @ModelAttribute("listBookmark") ArrayList<Bookmark> listBookmark,
+                       HttpServletResponse response, @CookieValue(value = "lastMenu") String lastMenu)
+    {
         System.out.println("in /home");
+        System.out.println("lastMenu = " + lastMenu);
+//        System.out.println("lastMenu = " + lastMenu);
+        try
+        {
+            response.addCookie(new Cookie("lastMenu", String.valueOf(aimMenu.getId())));
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         System.out.println("listBookmark = " + listBookmark);
-        System.out.println(listBookmark.isEmpty());
-        if (aimMenu == null && listBookmark.isEmpty()) {
+        System.out.println("listBookmark.isEmpty() = " + listBookmark.isEmpty());
+
+        if (aimMenu == null || (aimMenu.getId() == null && listBookmark.isEmpty()))
+        {
             List<Menu> listMenu = menuService.findMenuByNameUser(userDetails.getUsername());
-            if (!listMenu.isEmpty()) {
-                listBookmark = (ArrayList<Bookmark>) bookmarkService.findBookmarkByFirstMenu(userDetails.getUsername());
+            if (!listMenu.isEmpty())
+            {
+                if (lastMenu != null)
+                {
+                    listBookmark = (ArrayList<Bookmark>) bookmarkService.findBookmarkByFirstMenu(userDetails.getUsername());
+                }else{
+                    listBookmark = (ArrayList<Bookmark>) bookmarkService.findBookmarkByMenu(menuService.findMenuById(new Long(lastMenu)));
+                }
+
                 aimMenu = listMenu.get(0);
                 model.addAttribute("aimMenu", aimMenu);
                 model.addAttribute("listBookmark", listBookmark);
-            } else {
+            }
+            else
+            {
                 model.addAttribute("aimMenu", aimMenu);
                 model.addAttribute("listBookmark", listBookmark);
             }
 
-        } else {
+        }
+        else
+        {
             model.addAttribute("aimMenu", aimMenu);
             model.addAttribute("listBookmark", listBookmark);
         }
+
         model.addAttribute("menu", new Menu());
         model.addAttribute("bookmark", new Bookmark());
         model.addAttribute("listMenu", menuService.findMenuByNameUser(userDetails.getUsername()));
@@ -67,7 +97,8 @@ public class HomeController {
 
 
     @PostMapping("/menu/add")
-    public String add(@ModelAttribute Menu menu, RedirectAttributes redirectAttributes) {
+    public String add(@ModelAttribute Menu menu, RedirectAttributes redirectAttributes)
+    {
         System.out.println("-------- in /home/menu/add");
         System.out.println(menu.toString());
 
@@ -85,7 +116,8 @@ public class HomeController {
     }
 
     @GetMapping("/selectBookmark/{idMenu}")
-    public String selectMenuBookmark(@PathVariable("idMenu") Long idMenu, RedirectAttributes redirectAttributes) {
+    public String selectMenuBookmark(@PathVariable("idMenu") Long idMenu, RedirectAttributes redirectAttributes)
+    {
         System.out.println("-------- in /home/selectBookmark");
 
         Menu aimMenu = menuService.findMenuById(idMenu);
@@ -97,7 +129,8 @@ public class HomeController {
 
     @PostMapping("/bookmark/add")
     public String addBookmarkInTargetMenu(@ModelAttribute Bookmark bookmark, @RequestParam("aimMenuId") Long
-            aimMenuId, RedirectAttributes redirectAttributes) {
+            aimMenuId, RedirectAttributes redirectAttributes)
+    {
 
         System.out.println("-------- in /home/bookmark/add");
 
@@ -112,20 +145,24 @@ public class HomeController {
 
     @GetMapping("/menu/del/{aimMenuId}/{idMenu}")
     public String delMenu(@PathVariable("aimMenuId") Long aimMenuId, @PathVariable("idMenu") Long
-            idMenuDel, RedirectAttributes redirectAttributes) {
+            idMenuDel, RedirectAttributes redirectAttributes)
+    {
         System.out.println("home/menu/del/{aimMenuId}/{idMenu}");
 
-        System.out.println("aimMenuId = "+aimMenuId);
-        System.out.println("idMenu = "+idMenuDel);
+        System.out.println("aimMenuId = " + aimMenuId);
+        System.out.println("idMenu = " + idMenuDel);
 
         menuService.deleteById(idMenuDel);
 
         Menu aimMenu;
-        if (aimMenuId.longValue() == idMenuDel.longValue()) {
+        if (aimMenuId.longValue() == idMenuDel.longValue())
+        {
             System.out.println("aimMenuId.longValue() == idMenuDel.longValue()");
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             aimMenu = menuService.findFirstMenuOfThisUser(userDetails.getUsername());
-        } else {
+        }
+        else
+        {
             System.out.println("else = " + aimMenuId);
             aimMenu = menuService.findMenuById(aimMenuId);
         }
@@ -139,7 +176,8 @@ public class HomeController {
     @PostMapping("/menu/edit/{aimMenuId}/{editMenuId}")
     public String editMenu(@PathVariable("aimMenuId") Long aimMenuId,
                            @PathVariable("editMenuId") Long editMenuId,
-                           @RequestParam("nameMenu") String editMenuName, RedirectAttributes redirectAttributes) {
+                           @RequestParam("nameMenu") String editMenuName, RedirectAttributes redirectAttributes)
+    {
         System.out.println("in /menu/edit/{aimMenuId}/{editMenuId}");
 
         Menu editMenu = menuService.findMenuById(editMenuId);
@@ -156,7 +194,8 @@ public class HomeController {
 
     @GetMapping("/bookmark/del/{aimMenuId}/{delBookmarkId}")
     public String delBookmark(@PathVariable("aimMenuId") Long aimMenuId, @PathVariable("delBookmarkId") Long
-            delBookmarkId, RedirectAttributes redirectAttributes) {
+            delBookmarkId, RedirectAttributes redirectAttributes)
+    {
 
         System.out.println("in /bookmark/del/{aimMenuId}/{delBookmarkId}");
 
@@ -173,7 +212,8 @@ public class HomeController {
     public String editBookmark(@PathVariable("aimMenuId") Long aimMenuId,
                                @PathVariable("editBookmarkId") Long editBookmarkId, RedirectAttributes redirectAttributes,
                                @RequestParam("bookmarkLink") String bookmarkLink,
-                               @RequestParam("bookmarkComment") String bookmarkComment) {
+                               @RequestParam("bookmarkComment") String bookmarkComment)
+    {
 
         System.out.println("in /bookmark/edit/{aimMenuId}/{editBookmarkId}");
 
