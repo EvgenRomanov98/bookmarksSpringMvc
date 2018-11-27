@@ -41,7 +41,7 @@ public class HomeController
     @GetMapping
     public String home(Model model, @ModelAttribute("aimMenu") Menu aimMenu,
                        @ModelAttribute("listBookmark") ArrayList<Bookmark> listBookmark,
-                       HttpServletResponse response, @CookieValue(value = "lastMenu") String lastMenu)
+                       HttpServletResponse response, @CookieValue(value = "lastMenu", defaultValue = "null") String lastMenu)
     {
         System.out.println("in /home");
         System.out.println("lastMenu = " + lastMenu);
@@ -64,16 +64,36 @@ public class HomeController
             List<Menu> listMenu = menuService.findMenuByNameUser(userDetails.getUsername());
             if (!listMenu.isEmpty())
             {
-                if (lastMenu != null)
+                if (lastMenu.equals("null"))
                 {
                     listBookmark = (ArrayList<Bookmark>) bookmarkService.findBookmarkByFirstMenu(userDetails.getUsername());
-                }else{
-                    listBookmark = (ArrayList<Bookmark>) bookmarkService.findBookmarkByMenu(menuService.findMenuById(new Long(lastMenu)));
-                }
+                    aimMenu = listMenu.get(0);
 
-                aimMenu = listMenu.get(0);
-                model.addAttribute("aimMenu", aimMenu);
-                model.addAttribute("listBookmark", listBookmark);
+                    model.addAttribute("aimMenu", aimMenu);
+                    model.addAttribute("listBookmark", listBookmark);
+                }
+                else
+                {
+//                    aimMenu = menuService.findMenuById((long) Integer.parseInt(lastMenu));
+//                    listMenu.forEach((menu) ->
+//                    {
+//                        if (lastMenu.equals(menu.getId().toString()))
+//                        {
+//                            aimMenu = menu;
+//                        }
+//                    });
+                    for (Menu menu : listMenu)
+                    {
+                        if (lastMenu.equals(menu.getId().toString()))
+                        {
+                            aimMenu = menu;
+                        }
+                    }
+                    listBookmark = (ArrayList<Bookmark>) bookmarkService.findBookmarkByMenu(aimMenu);
+
+                    model.addAttribute("aimMenu", aimMenu);
+                    model.addAttribute("listBookmark", listBookmark);
+                }
             }
             else
             {
