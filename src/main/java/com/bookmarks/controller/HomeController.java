@@ -74,14 +74,6 @@ public class HomeController
                 }
                 else
                 {
-//                    aimMenu = menuService.findMenuById((long) Integer.parseInt(lastMenu));
-//                    listMenu.forEach((menu) ->
-//                    {
-//                        if (lastMenu.equals(menu.getId().toString()))
-//                        {
-//                            aimMenu = menu;
-//                        }
-//                    });
                     for (Menu menu : listMenu)
                     {
                         if (lastMenu.equals(menu.getId().toString()))
